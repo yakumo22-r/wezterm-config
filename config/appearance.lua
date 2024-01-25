@@ -26,15 +26,30 @@ return {
    -- scrollbar
    enable_scroll_bar = true,
 
+   -- cursor
+   default_cursor_style = 'BlinkingBlock',
+   cursor_blink_ease_in = "Constant",
+   cursor_blink_ease_out = "Constant",
+   cursor_blink_rate = 600,
+
    -- tab bar
    enable_tab_bar = true,
    hide_tab_bar_if_only_one_tab = false,
-   use_fancy_tab_bar = false,
-   tab_max_width = 25,
-   show_tab_index_in_tab_bar = false,
+   use_fancy_tab_bar = true,
+   tab_max_width = 40,
+   show_tab_index_in_tab_bar = true,
    switch_to_last_active_tab_when_closing_tab = true,
 
    -- window
+   window_decorations = "INTEGRATED_BUTTONS|RESIZE",
+   integrated_title_buttons = { 'Hide', 'Maximize', 'Close' },
+   integrated_title_button_alignment = "Right",
+   integrated_title_button_color = "Auto",
+   
+
+   initial_cols = 120,
+   initial_rows = 36,
+
    window_padding = {
       left = 5,
       right = 10,
