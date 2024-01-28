@@ -52,7 +52,7 @@ local colorscheme = {
       '#16C60C', -- green
       '#F9F1A5', -- yellow
       '#3B78FF', -- blue
-      '#B4009E', -- magenta/purple
+      '#EA4DC8', -- magenta/purple
       '#61D6D6', -- cyan
       '#888888', -- white
    },
