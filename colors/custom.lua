@@ -14,7 +14,7 @@ local mocha = {
    sapphire = '#74c7ec',
    blue = '#89b4fa',
    lavender = '#b4befe',
-   text = '#cdd6f4',
+   text = '#fbebd2',
    subtext1 = '#bac2de',
    subtext0 = '#a6adc8',
    overlay2 = '#9399b2',
@@ -23,7 +23,7 @@ local mocha = {
    surface2 = '#585b70',
    surface1 = '#45475a',
    surface0 = '#313244',
-   base = '#1f1f28',
+   base = '#24241f',
    mantle = '#181825',
    crust = '#11111b',
 }
@@ -48,12 +48,12 @@ local colorscheme = {
    },
    brights = {
       '#767676', -- black
-      '#E74856', -- red
+      '#f07070', -- red
       '#16C60C', -- green
       '#F9F1A5', -- yellow
-      '#3B78FF', -- blue
+      '#94afff', -- blue
       '#EA4DC8', -- magenta/purple
-      '#61D6D6', -- cyan
+      '#40cef2', -- cyan
       '#888888', -- white
    },
    tab_bar = {
