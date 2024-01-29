@@ -52,8 +52,8 @@ local colorscheme = {
       '#16C60C', -- green
       '#F9F1A5', -- yellow
       '#94afff', -- blue
-      '#EA4DC8', -- magenta/purple
-      '#40cef2', -- cyan
+      '#e67ac4', -- magenta/purple
+      '#48d2f4', -- cyan
       '#888888', -- white
    },
    tab_bar = {
