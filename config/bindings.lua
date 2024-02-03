@@ -17,21 +17,19 @@ local keys = {
 	-- misc/useful --
 	{ key = 'F1', mods = 'NONE', action = 'ActivateCopyMode' },
 	{ key = 'F2', mods = 'NONE', action = act.ActivateCommandPalette },
-	{ key = 'F3', mods = 'NONE', action = act.ShowLauncher },
-	{ key = 'F4', mods = 'NONE', action = act.ShowTabNavigator },
+	{ key = 'n', mods = mod.SUPER, action = act.ShowLauncher },
+	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 	{ key = 'f', mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
 
 	-- copy/paste --
-	{ key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo('Clipboard') },
-	{ key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom('Clipboard') },
+	{ key = 'c', mods = mod.SUPER, action = act.CopyTo('Clipboard') },
+	{ key = 'v', mods = mod.SUPER, action = act.PasteFrom('Clipboard') },
 
 	-- tabs --
 	-- tabs: spawn+close
 	{ key = 't', mods = mod.SUPER, action = act.SpawnTab('DefaultDomain') },
 	{ key = 't', mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Ubuntu' }) },
-	{ key = 'w', mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
-
 	-- tabs: navigation
 	{ key = '[', mods = mod.SUPER, action = act.ActivateTabRelative(-1) },
 	{ key = ']', mods = mod.SUPER, action = act.ActivateTabRelative(1) },
@@ -40,7 +38,7 @@ local keys = {
 
 	-- window --
 	-- spawn windows
-	{ key = 'n', mods = mod.SUPER, action = act.SpawnWindow },
+	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
 
 	-- background controls --
 	{
@@ -91,15 +89,11 @@ local keys = {
 		action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
 	},
 
-	-- panes: zoom+close pane
-	{ key = 'z', mods = mod.SUPER_REV, action = act.TogglePaneZoomState },
-	{ key = 'w', mods = mod.SUPER, action = act.CloseCurrentPane({ confirm = false }) },
-
 	-- panes: navigation
-	{ key = 'k', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Up') },
-	{ key = 'j', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Down') },
-	{ key = 'h', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Left') },
-	{ key = 'l', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Right') },
+	{ key = 'k', mods = mod.SUPER, action = act.ActivatePaneDirection('Up') },
+	{ key = 'j', mods = mod.SUPER, action = act.ActivatePaneDirection('Down') },
+	{ key = 'h', mods = mod.SUPER, action = act.ActivatePaneDirection('Left') },
+	{ key = 'l', mods = mod.SUPER, action = act.ActivatePaneDirection('Right') },
 
 	-- key-tables --
 	-- resizes fonts

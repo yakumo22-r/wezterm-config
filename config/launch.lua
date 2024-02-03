@@ -10,18 +10,13 @@ if platform.is_win then
 	options.default_prog = zsh_args
 	options.launch_menu = {
 		{ label = 'PowerShell Core', args = { 'pwsh' } },
-		{
-			label = 'zsh',
-			args = zsh_args,
-		},
+		{ label = 'zsh', args = zsh_args, },
 	}
 elseif platform.is_mac then
 	options.default_prog = { 'zsh' }
 	options.launch_menu = {
-		{ label = 'Bash', args = { 'bash' } },
-		{ label = 'Fish', args = { '/opt/homebrew/bin/fish' } },
-		{ label = 'Nushell', args = { '/opt/homebrew/bin/nu' } },
 		{ label = 'Zsh', args = { 'zsh' } },
+		{ label = 'Bash', args = { 'bash' } },
 	}
 elseif platform.is_linux then
 	options.default_prog = { 'fish' }
