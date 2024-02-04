@@ -1,5 +1,6 @@
 local wezterm = require('wezterm')
 local colors = require('colors.custom')
+local user = require('user')
 
 return {
 	animation_fps = 60,
@@ -46,9 +47,8 @@ return {
 	integrated_title_button_alignment = "Right",
 	integrated_title_button_color = "Auto",
 
-
-	initial_cols = 160,
-	initial_rows = 40,
+	initial_cols = user.window.width,
+	initial_rows = user.window.height,
 
 	window_padding = {
 		left = 5,
@@ -62,8 +62,8 @@ return {
 		-- font = fonts.font,
 		-- font_size = fonts.font_size,
 	},
-	inactive_pane_hsb = {
-		saturation = 0.7,
-		brightness = 0.6,
-	},
+	-- inactive_pane_hsb = {
+	-- 	saturation = 0.7,
+	-- 	brightness = 0.6,
+	-- },
 }

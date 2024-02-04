@@ -28,7 +28,7 @@ elseif platform.is_linux then
 end
 
 -- add ssh config
-local ssh_conf = require('config.ssh_conf')
+local ssh_conf = require('user').ssh
 for k,v in ipairs(ssh_conf)do
 	options.launch_menu[#options.launch_menu + 1] = v
 end

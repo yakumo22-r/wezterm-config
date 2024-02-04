@@ -35,9 +35,11 @@ end
 ---WezTerm's fs utilities `read_dir` and `glob` work by running on a spawned child process.
 ---This throws a coroutine error if either of these functions are invoked in outside of `wezterm.lua`
 ---in the initial load of the Terminal config
+local user = require('user')
+
 function BackDrops:set_files()
    self.files = wezterm.read_dir(wezterm.config_dir .. PATH_SEP .. 'backdrops')
-   wezterm.GLOBAL.background = self.files[1]
+   wezterm.GLOBAL.background = wezterm.config_dir..PATH_SEP..'backdrops'..user.window.background 
    return self
 end
 
