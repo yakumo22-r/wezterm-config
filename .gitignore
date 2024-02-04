@@ -3,4 +3,3 @@
 /lua_modules
 /.luarocks
 .DS_Store
-/user.lua
