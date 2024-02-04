@@ -15,21 +15,15 @@ end
 
 local keys = {
 	-- misc/useful --
-	{ key = 'F1', mods = 'NONE', action = 'ActivateCopyMode' },
-	{ key = 'F2', mods = 'NONE', action = act.ActivateCommandPalette },
 	{ key = 'n', mods = mod.SUPER, action = act.ShowLauncher },
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
-	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 	{ key = 'f', mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
+	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 
 	-- copy/paste --
 	{ key = 'c', mods = mod.SUPER, action = act.CopyTo('Clipboard') },
 	{ key = 'v', mods = mod.SUPER, action = act.PasteFrom('Clipboard') },
 
-	-- tabs --
-	-- tabs: spawn+close
-	{ key = 't', mods = mod.SUPER, action = act.SpawnTab('DefaultDomain') },
-	{ key = 't', mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Ubuntu' }) },
 	-- tabs: navigation
 	{ key = '[', mods = mod.SUPER, action = act.ActivateTabRelative(-1) },
 	{ key = ']', mods = mod.SUPER, action = act.ActivateTabRelative(1) },
