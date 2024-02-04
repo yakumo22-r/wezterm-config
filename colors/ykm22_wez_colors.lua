@@ -84,7 +84,6 @@ colors.term = {
 	colors.bright_aqua,
 	colors.light0,
 }
-print(colors.term)
 function colors.get_range(src, startIdx, endIdx)
 	local result={}
 	for i = startIdx,endIdx do
