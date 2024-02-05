@@ -7,17 +7,18 @@ local mod = {}
 
 if platform.is_mac then
 	mod.SUPER = 'SUPER'
+	mod.LOWSUPER = 'SUPER'
 	mod.SUPER_REV = 'SUPER|CTRL'
 elseif platform.is_win then
 	mod.SUPER = 'CTRL|SHIFT' -- to not conflict with Windows key shortcuts
+	mod.LOWSUPER = 'CTRL'
 	mod.SUPER_REV = 'ALT'
 end
 
 local keys = {
 	-- misc/useful --
-	{ key = 'n', mods = mod.SUPER, action = act.ShowLauncher },
+	{ key = 'n', mods = mod.SUPER, action = act.ShowLauncherArgs{ flags = 'FUZZY|LAUNCH_MENU_ITEMS' } },
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
-	{ key = 'f', mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 
 	-- copy/paste --
@@ -25,65 +26,65 @@ local keys = {
 	{ key = 'v', mods = mod.SUPER, action = act.PasteFrom('Clipboard') },
 
 	-- tabs: navigation
-	{ key = '[', mods = mod.SUPER, action = act.ActivateTabRelative(-1) },
-	{ key = ']', mods = mod.SUPER, action = act.ActivateTabRelative(1) },
+	{ key = '[', mods = mod.LOWSUPER, action = act.ActivateTabRelative(-1) },
+	{ key = ']', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
 	{ key = ']', mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
-
+	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette,	},
 	-- window --
 	-- spawn windows
-	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
+	-- { key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
 
-	-- background controls --
-	{
-		key = [[/]],
-		mods = mod.SUPER,
-		action = wezterm.action_callback(function(window, _pane)
-			backdrops:random(window)
-		end),
-	},
-	{
-		key = [[,]],
-		mods = mod.SUPER,
-		action = wezterm.action_callback(function(window, _pane)
-			backdrops:cycle_back(window)
-		end),
-	},
-	{
-		key = [[.]],
-		mods = mod.SUPER,
-		action = wezterm.action_callback(function(window, _pane)
-			backdrops:cycle_forward(window)
-		end),
-	},
-	{
-		key = [[/]],
-		mods = mod.SUPER_REV,
-		action = act.InputSelector({
-			title = 'Select Background',
-			choices = backdrops:choices(),
-			fuzzy = true,
-			--      fuzzy_description = 'Select Background: ',
-			action = wezterm.action_callback(function(window, _pane, idx)
-				backdrops:set_img(window, tonumber(idx))
-			end),
-		}),
-	},
+	-- -- background controls --
+	-- {
+	-- 	key = [[/]],
+	-- 	mods = mod.SUPER,
+	-- 	action = wezterm.action_callback(function(window, _pane)
+	-- 		backdrops:random(window)
+	-- 	end),
+	-- },
+	-- {
+	-- 	key = [[,]],
+	-- 	mods = mod.SUPER,
+	-- 	action = wezterm.action_callback(function(window, _pane)
+	-- 		backdrops:cycle_back(window)
+	-- 	end),
+	-- },
+	-- {
+	-- 	key = [[.]],
+	-- 	mods = mod.SUPER,
+	-- 	action = wezterm.action_callback(function(window, _pane)
+	-- 		backdrops:cycle_forward(window)
+	-- 	end),
+	-- },
+	-- {
+	-- 	key = [[/]],
+	-- 	mods = mod.SUPER_REV,
+	-- 	action = act.InputSelector({
+	-- 		title = 'Select Background',
+	-- 		choices = backdrops:choices(),
+	-- 		fuzzy = true,
+	-- 		--      fuzzy_description = 'Select Background: ',
+	-- 		action = wezterm.action_callback(function(window, _pane, idx)
+	-- 			backdrops:set_img(window, tonumber(idx))
+	-- 		end),
+	-- 	}),
+	-- },
 
 	-- panes --
 	-- panes: split panes
-	{
-		key = [[\]],
-		mods = mod.SUPER,
-		action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
-	},
+	-- {
+	-- 	key = [[\]],
+	-- 	mods = mod.SUPER,
+	-- 	action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
+	-- },
 	{
 		key = [[\]],
 		mods = mod.SUPER_REV,
 		action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
 	},
 
-	-- panes: navigation
+	-- panes: navigatioRn
 	{ key = 'k', mods = mod.SUPER, action = act.ActivatePaneDirection('Up') },
 	{ key = 'j', mods = mod.SUPER, action = act.ActivatePaneDirection('Down') },
 	{ key = 'h', mods = mod.SUPER, action = act.ActivatePaneDirection('Left') },
@@ -91,43 +92,43 @@ local keys = {
 
 	-- key-tables --
 	-- resizes fonts
-	{
-		key = 'f',
-		mods = 'LEADER',
-		action = act.ActivateKeyTable({
-			name = 'resize_font',
-			one_shot = false,
-			timemout_miliseconds = 1000,
-		}),
-	},
-	-- resize panes
-	{
-		key = 'p',
-		mods = 'LEADER',
-		action = act.ActivateKeyTable({
-			name = 'resize_pane',
-			one_shot = false,
-			timemout_miliseconds = 1000,
-		}),
-	},
+	-- {
+	-- 	key = 'f',
+	-- 	mods = mod.SUPER,
+	-- 	action = act.ActivateKeyTable({
+	-- 		name = 'resize_font',
+	-- 		one_shot = false,
+	-- 		timemout_miliseconds = 1000,
+	-- 	}),
+	-- },
+	-- -- resize panes
+	-- {
+	-- 	key = 'p',
+	-- 	mods = 'LEADER',
+	-- 	action = act.ActivateKeyTable({
+	-- 		name = 'resize_pane',
+	-- 		one_shot = false,
+	-- 		timemout_miliseconds = 1000,
+	-- 	}),
+	-- },
 }
 
 local key_tables = {
-	resize_font = {
-		{ key = 'k', action = act.IncreaseFontSize },
-		{ key = 'j', action = act.DecreaseFontSize },
-		{ key = 'r', action = act.ResetFontSize },
-		{ key = 'Escape', action = 'PopKeyTable' },
-		{ key = 'q', action = 'PopKeyTable' },
-	},
-	resize_pane = {
-		{ key = 'k', action = act.AdjustPaneSize({ 'Up', 1 }) },
-		{ key = 'j', action = act.AdjustPaneSize({ 'Down', 1 }) },
-		{ key = 'h', action = act.AdjustPaneSize({ 'Left', 1 }) },
-		{ key = 'l', action = act.AdjustPaneSize({ 'Right', 1 }) },
-		{ key = 'Escape', action = 'PopKeyTable' },
-		{ key = 'q', action = 'PopKeyTable' },
-	},
+	-- resize_font = {
+	-- 	{ key = 'k', action = act.IncreaseFontSize },
+	-- 	{ key = 'j', action = act.DecreaseFontSize },
+	-- 	{ key = 'r', action = act.ResetFontSize },
+	-- 	{ key = 'Escape', action = 'PopKeyTable' },
+	-- 	{ key = 'q', action = 'PopKeyTable' },
+	-- },
+	-- resize_pane = {
+	-- 	{ key = 'k', action = act.AdjustPaneSize({ 'Up', 1 }) },
+	-- 	{ key = 'j', action = act.AdjustPaneSize({ 'Down', 1 }) },
+	-- 	{ key = 'h', action = act.AdjustPaneSize({ 'Left', 1 }) },
+	-- 	{ key = 'l', action = act.AdjustPaneSize({ 'Right', 1 }) },
+	-- 	{ key = 'Escape', action = 'PopKeyTable' },
+	-- 	{ key = 'q', action = 'PopKeyTable' },
+	-- },
 }
 
 local mouse_bindings = {
