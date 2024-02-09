@@ -1,10 +1,16 @@
 local wezterm = require 'wezterm'
-local filepath = wezterm.home_dir.."/.config/wezterm-user.lua"
+local dir = wezterm.home_dir.."/.config"
+local filepath = dir.."/wezterm-user.lua"
 
 local file = io.open(filepath, "r")
 if file then
 	file:close()
 else
+
+	if not vim.loop.fs_stat(dir) then
+		vim.fn.system('mkdir -p "'..dir..'"')
+	end
+
 	file = io.open(filepath, "w")
 	local default_content = [[
 	-- add ssh connect here
