@@ -17,7 +17,11 @@ end
 
 local keys = {
 	-- misc/useful --
-	{ key = 'n', mods = mod.SUPER, action = act.ShowLauncherArgs{ flags = 'FUZZY|LAUNCH_MENU_ITEMS' } },
+	{
+		key = 'n',
+		mods = mod.SUPER,
+		action = act.ShowLauncherArgs({ flags = 'FUZZY|LAUNCH_MENU_ITEMS' }),
+	},
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 
@@ -30,10 +34,12 @@ local keys = {
 	{ key = ']', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
 	{ key = ']', mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
-	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette,	},
+	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette },
 	-- window --
 	-- spawn windows
-	-- { key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
+	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
+	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
+	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
 	-- -- background controls --
 	-- {
