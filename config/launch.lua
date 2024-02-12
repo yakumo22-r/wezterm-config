@@ -6,11 +6,11 @@ local options = {
 }
 
 if platform.is_win then
-	local zsh_args = {'zsh', '-h'}
+	local zsh_args = { 'zsh', '-h' }
 	options.default_prog = zsh_args
 	options.launch_menu = {
 		{ label = 'PowerShell Core', args = { 'pwsh' } },
-		{ label = 'zsh', args = zsh_args, },
+		{ label = 'zsh', args = zsh_args },
 	}
 elseif platform.is_mac then
 	options.default_prog = { 'zsh' }
@@ -29,7 +29,7 @@ end
 
 -- add ssh config
 local ssh_conf = require('user').ssh
-for k,v in ipairs(ssh_conf)do
+for k, v in ipairs(ssh_conf) do
 	options.launch_menu[#options.launch_menu + 1] = v
 end
 
