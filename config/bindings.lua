@@ -20,7 +20,7 @@ local keys = {
 	{
 		key = 'n',
 		mods = mod.SUPER,
-		action = act.ShowLauncherArgs({ flags = 'FUZZY|LAUNCH_MENU_ITEMS' }),
+		action = act.ShowLauncherArgs({ flags = 'FUZZY|LAUNCH_MENU_ITEMS|DOMAINS' }),
 	},
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
@@ -30,6 +30,7 @@ local keys = {
 	{ key = 'v', mods = mod.SUPER, action = act.PasteFrom('Clipboard') },
 
 	-- tabs: navigation
+	{ key = 'Tab', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.LOWSUPER, action = act.ActivateTabRelative(-1) },
 	{ key = ']', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
@@ -38,6 +39,7 @@ local keys = {
 	-- window --
 	-- spawn windows
 	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
+	{ key = 'q', mods = mod.SUPER, action = act.CloseCurrentTab{ confirm = true } },
 	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
 	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
