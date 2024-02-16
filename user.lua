@@ -6,8 +6,9 @@ local file = io.open(filepath, 'r')
 if file then
 	file:close()
 else
-	if not vim.loop.fs_stat(dir) then
-		vim.fn.system('mkdir -p "' .. dir .. '"')
+	local d = io.open(dir, "r")
+	if d == nil then
+		os.execute('mkdir -p "' .. dir .. '"')
 	end
 
 	file = io.open(filepath, 'w')
