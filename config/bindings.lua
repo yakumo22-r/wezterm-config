@@ -39,10 +39,20 @@ local keys = {
 	-- window --
 	-- spawn windows
 	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
-	{ key = 'q', mods = mod.SUPER, action = act.CloseCurrentTab{ confirm = true } },
+	{ key = 'q', mods = mod.SUPER, action = act.CloseCurrentTab({ confirm = true }) },
 	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
 	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
+	{
+		key = '-',
+		mods = mod.LOWSUPER,
+		action = wezterm.action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
+	},
+	{
+		key = '\\',
+		mods = mod.LOWSUPER,
+		action = wezterm.action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
+	},
 	-- -- background controls --
 	-- {
 	-- 	key = [[/]],
@@ -86,18 +96,12 @@ local keys = {
 	-- 	mods = mod.SUPER,
 	-- 	action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
 	-- },
-	{
-		key = [[\]],
-		mods = mod.SUPER_REV,
-		action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
-	},
-
 	-- panes: navigatioRn
 	{ key = 'k', mods = mod.SUPER, action = act.ActivatePaneDirection('Up') },
 	{ key = 'j', mods = mod.SUPER, action = act.ActivatePaneDirection('Down') },
 	{ key = 'h', mods = mod.SUPER, action = act.ActivatePaneDirection('Left') },
 	{ key = 'l', mods = mod.SUPER, action = act.ActivatePaneDirection('Right') },
-
+	{ key = 'x', mods = mod.LOWSUPER, action = wezterm.action.ActivateCopyMode },
 	-- key-tables --
 	-- resizes fonts
 	-- {
