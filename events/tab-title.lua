@@ -2,31 +2,41 @@ local wezterm = require('wezterm')
 
 -- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
 
-local GLYPH_SEMI_CIRCLE_LEFT = ''
--- local GLYPH_SEMI_CIRCLE_LEFT = utf8.char(0xe0b6)
-local GLYPH_SEMI_CIRCLE_RIGHT = ''
--- local GLYPH_SEMI_CIRCLE_RIGHT = utf8.char(0xe0b4)
-local GLYPH_CIRCLE = ''
--- local GLYPH_CIRCLE = utf8.char(0xf111)
 local GLYPH_ADMIN = '󰞀'
 -- local GLYPH_ADMIN = utf8.char(0xf0780)
 
 local M = {}
 
+local tbl_domainsCount = {}
+local tbl_domainNames = {}
+
+function get_title_by_domain(domain_name, pane_id)
+	if tbl_domainNames[pane_id] == nil then
+		if tbl_domainsCount[domain_name] == nil then
+			tbl_domainsCount[domain_name] = 1
+			tbl_domainNames[pane_id] = domain_name
+		else
+			tbl_domainsCount[domain_name] = 1 + tbl_domainsCount[domain_name]
+			tbl_domainNames[pane_id] = domain_name .. ' ' .. tbl_domainsCount[domain_name]
+		end
+	end
+	return tbl_domainNames[pane_id]
+end
+
 local __cells__ = {}
 
 local colors = {
 	default = {
-		bg = '#45475a',
+		bg = '#65616b',
 		fg = '#1c1b19',
 	},
 	is_active = {
-		bg = '#7FB4CA',
+		bg = '#7FB4Ca',
 		fg = '#11111b',
 	},
 
 	hover = {
-		bg = '#587d8c',
+		bg = '#75717b',
 		fg = '#1c1b19',
 	},
 }
@@ -78,9 +88,12 @@ M.setup = function()
 
 		local bg
 		local fg
-		local process_name = _set_process_name(tab.active_pane.foreground_process_name)
 		local is_admin = _check_if_admin(tab.active_pane.title)
-		local title = _set_title(process_name, tab.active_pane.title, max_width, (is_admin and 8))
+		local pane_id = tab.active_pane.pane_id
+		local domain_name = tab.active_pane.domain_name
+		local baseTitle = tab.active_pane.title
+		local title = get_title_by_domain(domain_name, pane_id)
+		wezterm.mux.get_tab(tab.tab_id):set_title(title .. ' - ' .. baseTitle)
 
 		if tab.is_active then
 			bg = colors.is_active.bg
@@ -93,16 +106,8 @@ M.setup = function()
 			fg = colors.default.fg
 		end
 
-		local has_unseen_output = false
-		for _, pane in ipairs(tab.panes) do
-			if pane.has_unseen_output then
-				has_unseen_output = true
-				break
-			end
-		end
-
 		-- Left semi-circle
-		_push(fg, bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_LEFT)
+		-- _push(fg, bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_LEFT)
 
 		-- Admin Icon
 		if is_admin then
@@ -112,16 +117,11 @@ M.setup = function()
 		-- Title
 		_push(bg, fg, { Intensity = 'Bold' }, ' ' .. title)
 
-		-- Unseen output alert
-		if has_unseen_output then
-			_push(bg, '#FFA066', { Intensity = 'Bold' }, ' ' .. GLYPH_CIRCLE)
-		end
-
 		-- Right padding
 		_push(bg, fg, { Intensity = 'Bold' }, ' ')
 
 		-- Right semi-circle
-		_push(fg, bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_RIGHT)
+		-- _push(fg, bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_RIGHT)
 
 		return __cells__
 	end)
