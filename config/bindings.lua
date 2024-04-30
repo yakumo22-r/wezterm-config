@@ -9,10 +9,11 @@ if platform.is_mac then
 	mod.SUPER = 'SUPER'
 	mod.LOWSUPER = 'SUPER'
 	mod.SUPER_REV = 'SUPER|CTRL'
+	mod.SYS = 'SUPER'
 elseif platform.is_win then
 	mod.SUPER = 'CTRL|SHIFT' -- to not conflict with Windows key shortcuts
 	mod.LOWSUPER = 'CTRL'
-	mod.SUPER_REV = 'ALT'
+	mod.SYS = 'ALT'
 end
 
 local keys = {
@@ -26,8 +27,8 @@ local keys = {
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
 
 	-- copy/paste --
-	{ key = 'c', mods = mod.SUPER, action = act.CopyTo('Clipboard') },
-	{ key = 'v', mods = mod.SUPER, action = act.PasteFrom('Clipboard') },
+	{ key = 'c', mods = mod.SYS, action = act.CopyTo('Clipboard') },
+	{ key = 'v', mods = mod.SYS, action = act.PasteFrom('Clipboard') },
 
 	-- tabs: navigation
 	{ key = 'Tab', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
@@ -38,21 +39,21 @@ local keys = {
 	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette },
 	-- window --
 	-- spawn windows
-	{ key = 'w', mods = mod.SUPER, action = act.SpawnWindow },
-	{ key = 'q', mods = mod.SUPER, action = act.CloseCurrentTab({ confirm = true }) },
+	{ key = 'w', mods = mod.SYS, action = act.SpawnWindow },
+	{ key = 'q', mods = mod.SYS, action = act.CloseCurrentTab({ confirm = true }) },
 	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
 	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
-	{
-		key = '-',
-		mods = mod.LOWSUPER,
-		action = wezterm.action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
-	},
-	{
-		key = '\\',
-		mods = mod.LOWSUPER,
-		action = wezterm.action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
-	},
+	--{
+	--	key = '-',
+	--	mods = mod.LOWSUPER,
+	--	action = wezterm.action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
+	--},
+	--{
+	--	key = '\\',
+	--	mods = mod.LOWSUPER,
+	--	action = wezterm.action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
+	--},
 	-- -- background controls --
 	-- {
 	-- 	key = [[/]],
