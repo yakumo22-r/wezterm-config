@@ -34,8 +34,8 @@ local keys = {
 	{ key = 'Tab', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.LOWSUPER, action = act.ActivateTabRelative(-1) },
 	{ key = ']', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
-	{ key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
-	{ key = ']', mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
+	{ key = '[', mods = mod.SYS, action = act.MoveTabRelative(-1) },
+	{ key = ']', mods = mod.SYS, action = act.MoveTabRelative(1) },
 	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette },
 	-- window --
 	-- spawn windows
