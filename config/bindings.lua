@@ -7,7 +7,7 @@ local mod = {}
 
 if platform.is_mac then
 	mod.SUPER = 'SUPER'
-	mod.LOWSUPER = 'SUPER'
+	mod.LOWSUPER = 'CTRL'
 	mod.SUPER_REV = 'SUPER|CTRL'
 	mod.SYS = 'SUPER'
 elseif platform.is_win then
