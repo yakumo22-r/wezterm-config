@@ -50,6 +50,11 @@ return {
 	initial_cols = user.window.width,
 	initial_rows = user.window.height,
 
+    window_frame = {
+        active_titlebar_bg = require('utils.window-utils').get_plate(-1).bg,
+        font_size = user.frame_font_size or 12,
+    },
+
 	window_padding = {
 		left = 10,
 		right = 10,
@@ -57,11 +62,6 @@ return {
 		bottom = 10,
 	},
 	window_close_confirmation = 'NeverPrompt',
-	window_frame = {
-		active_titlebar_bg = '#090909',
-		-- font = fonts.font,
-		-- font_size = fonts.font_size,
-	},
 	-- inactive_pane_hsb = {
 	-- 	saturation = 0.7,
 	-- 	brightness = 0.6,

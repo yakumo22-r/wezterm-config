@@ -29,7 +29,8 @@ else
 
 		-- https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
 		font = "JetBrainsMono Nerd Font Propo",
-		fontsize = 18,
+		fontsize = 14,
+        frame_font_size = 12,
 
 		-- image file under backdrops/
 		background = 'shermie.png',
@@ -46,7 +47,7 @@ end
 
 local originalPath = package.path
 package.path = filepath .. ';' .. package.path
-local user = require('wezterm-user')
+local user = require('wezterm-user') -- ~/.config/wezterm-user.lua
 package.path = originalPath
 
 return user

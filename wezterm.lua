@@ -2,9 +2,12 @@ local Config = require('config')
 
 require('utils.backdrops'):set_files():random()
 
-require('events.right-status').setup()
+-- require('events.right-status').setup()
+require('events.window-title').setup()
 require('events.tab-title').setup()
 require('events.new-tab-button').setup()
+
+require('commands.common')
 
 return Config:init()
 	:append(require('config.appearance'))

@@ -1,6 +1,7 @@
 local wezterm = require('wezterm')
 local platform = require('utils.platform')()
 local backdrops = require('utils.backdrops')
+local wndu = require('utils.window-utils')
 local act = wezterm.action
 
 local mod = {}
@@ -11,7 +12,7 @@ if platform.is_mac then
 	mod.SUPER_REV = 'SUPER|CTRL'
 	mod.SYS = 'SUPER'
 elseif platform.is_win then
-	mod.SUPER = 'CTRL|SHIFT' -- to not conflict with Windows key shortcuts
+	mod.SUPER = 'SHIFT|CTRL' -- to not conflict with Windows key shortcuts
 	mod.LOWSUPER = 'CTRL'
 	mod.SYS = 'ALT'
 end
@@ -25,13 +26,22 @@ local keys = {
 	},
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
+	{ key = 'F5', mods = 'NONE', action = wezterm.action_callback(function (window,pane)
+        -- refresh ...
+        window:perform_action(
+            act.ActivateTabRelative(1),pane
+        )
+        window:perform_action(
+            act.ActivateTabRelative(-1),pane
+        )
+	end)},
 
 	-- copy/paste --
 	{ key = 'c', mods = mod.SYS, action = act.CopyTo('Clipboard') },
 	{ key = 'v', mods = mod.SYS, action = act.PasteFrom('Clipboard') },
 
 	-- tabs: navigation
-	{ key = 'Tab', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
+	{ key = 'Tab', mods = mod.LOWSUPER, action = wndu.WindowFocus },
 	{ key = '[', mods = mod.LOWSUPER, action = act.ActivateTabRelative(-1) },
 	{ key = ']', mods = mod.LOWSUPER, action = act.ActivateTabRelative(1) },
 	{ key = '[', mods = mod.SYS, action = act.MoveTabRelative(-1) },
@@ -39,70 +49,19 @@ local keys = {
 	{ key = 'p', mods = mod.SUPER, action = wezterm.action.ActivateCommandPalette },
 	-- window --
 	-- spawn windows
-	{ key = 'w', mods = mod.SYS, action = act.SpawnWindow },
-	{ key = 'q', mods = mod.SYS, action = act.CloseCurrentTab({ confirm = true }) },
+	{ key = 'w', mods = mod.SYS, action = wndu.WindowOperation },
+	{ key = 'q', mods = mod.SYS, action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
 	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
-	--{
-	--	key = '-',
-	--	mods = mod.LOWSUPER,
-	--	action = wezterm.action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
-	--},
-	--{
-	--	key = '\\',
-	--	mods = mod.LOWSUPER,
-	--	action = wezterm.action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
-	--},
-	-- -- background controls --
-	-- {
-	-- 	key = [[/]],
-	-- 	mods = mod.SUPER,
-	-- 	action = wezterm.action_callback(function(window, _pane)
-	-- 		backdrops:random(window)
-	-- 	end),
-	-- },
-	-- {
-	-- 	key = [[,]],
-	-- 	mods = mod.SUPER,
-	-- 	action = wezterm.action_callback(function(window, _pane)
-	-- 		backdrops:cycle_back(window)
-	-- 	end),
-	-- },
-	-- {
-	-- 	key = [[.]],
-	-- 	mods = mod.SUPER,
-	-- 	action = wezterm.action_callback(function(window, _pane)
-	-- 		backdrops:cycle_forward(window)
-	-- 	end),
-	-- },
-	-- {
-	-- 	key = [[/]],
-	-- 	mods = mod.SUPER_REV,
-	-- 	action = act.InputSelector({
-	-- 		title = 'Select Background',
-	-- 		choices = backdrops:choices(),
-	-- 		fuzzy = true,
-	-- 		--      fuzzy_description = 'Select Background: ',
-	-- 		action = wezterm.action_callback(function(window, _pane, idx)
-	-- 			backdrops:set_img(window, tonumber(idx))
-	-- 		end),
-	-- 	}),
-	-- },
-
-	-- panes --
-	-- panes: split panes
-	-- {
-	-- 	key = [[\]],
-	-- 	mods = mod.SUPER,
-	-- 	action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
-	-- },
 	-- panes: navigatioRn
 	{ key = 'k', mods = mod.SUPER, action = act.ActivatePaneDirection('Up') },
 	{ key = 'j', mods = mod.SUPER, action = act.ActivatePaneDirection('Down') },
 	{ key = 'h', mods = mod.SUPER, action = act.ActivatePaneDirection('Left') },
 	{ key = 'l', mods = mod.SUPER, action = act.ActivatePaneDirection('Right') },
 	{ key = 'x', mods = mod.LOWSUPER, action = wezterm.action.ActivateCopyMode },
+
+    { key = 'g', mods = mod.SYS, action = wezterm.action.ActivateCommandPalette },
 	-- key-tables --
 	-- resizes fonts
 	-- {

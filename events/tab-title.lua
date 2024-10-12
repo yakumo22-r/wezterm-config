@@ -1,45 +1,13 @@
 local wezterm = require('wezterm')
+local act = wezterm.action
 
--- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
-
+local wndu = require('utils.window-utils')
 local GLYPH_ADMIN = '󰞀'
 -- local GLYPH_ADMIN = utf8.char(0xf0780)
 
 local M = {}
 
-local tbl_domainsCount = {}
-local tbl_domainNames = {}
-
-function get_title_by_domain(domain_name, pane_id)
-	if tbl_domainNames[pane_id] == nil then
-		if tbl_domainsCount[domain_name] == nil then
-			tbl_domainsCount[domain_name] = 1
-			tbl_domainNames[pane_id] = domain_name
-		else
-			tbl_domainsCount[domain_name] = 1 + tbl_domainsCount[domain_name]
-			tbl_domainNames[pane_id] = domain_name .. ' ' .. tbl_domainsCount[domain_name]
-		end
-	end
-	return tbl_domainNames[pane_id]
-end
-
 local __cells__ = {}
-
-local colors = {
-	default = {
-		bg = '#65616b',
-		fg = '#1c1b19',
-	},
-	is_active = {
-		bg = '#7FB4Ca',
-		fg = '#11111b',
-	},
-
-	hover = {
-		bg = '#75717b',
-		fg = '#1c1b19',
-	},
-}
 
 local _set_process_name = function(s)
 	local a = string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -91,19 +59,24 @@ M.setup = function()
 		local is_admin = _check_if_admin(tab.active_pane.title)
 		local pane_id = tab.active_pane.pane_id
 		local domain_name = tab.active_pane.domain_name
-		local baseTitle = tab.active_pane.title
-		local title = get_title_by_domain(domain_name, pane_id)
-		wezterm.mux.get_tab(tab.tab_id):set_title(title .. ' - ' .. baseTitle)
 
+        local title = tab.tab_title
+        if tab.tab_title == "" then
+            title = domain_name .. " " .. tab.tab_id
+            wezterm.mux.get_tab(tab.tab_id):set_title(title)
+        end
+
+
+        local plate = wndu.get_plate(tab.window_id)
 		if tab.is_active then
-			bg = colors.is_active.bg
-			fg = colors.is_active.fg
+			bg = plate.active
+			fg = plate.text
 		elseif hover then
-			bg = colors.hover.bg
-			fg = colors.hover.fg
+			bg = plate.hover
+			fg = plate.text
 		else
-			bg = colors.default.bg
-			fg = colors.default.fg
+			bg = plate.default
+			fg = plate.text
 		end
 
 		-- Left semi-circle
