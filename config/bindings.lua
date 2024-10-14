@@ -2,6 +2,7 @@ local wezterm = require('wezterm')
 local platform = require('utils.platform')()
 local backdrops = require('utils.backdrops')
 local wndu = require('utils.window-utils')
+local wsu = require('utils.workspace-utils')
 local act = wezterm.action
 
 local mod = {}
@@ -22,19 +23,18 @@ local keys = {
 	{
 		key = 'n',
 		mods = mod.SUPER,
-		action = act.ShowLauncherArgs({ flags = 'FUZZY|LAUNCH_MENU_ITEMS|DOMAINS' }),
+		action = wsu.SpawnTabSelect,
 	},
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
 	{ key = 'F12', mods = 'NONE', action = act.ShowDebugOverlay },
-	{ key = 'F5', mods = 'NONE', action = wezterm.action_callback(function (window,pane)
-        -- refresh ...
-        window:perform_action(
-            act.ActivateTabRelative(1),pane
-        )
-        window:perform_action(
-            act.ActivateTabRelative(-1),pane
-        )
-	end)},
+	{
+		key = 'F5',
+		mods = 'NONE',
+		action = wezterm.action_callback(function(window, pane)
+			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
+			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
+		end),
+	},
 
 	-- copy/paste --
 	{ key = 'c', mods = mod.SYS, action = act.CopyTo('Clipboard') },
@@ -50,7 +50,7 @@ local keys = {
 	-- window --
 	-- spawn windows
 	{ key = 'w', mods = mod.SYS, action = wndu.WindowOperation },
-	{ key = 'q', mods = mod.SYS, action = act.CloseCurrentPane({ confirm = true }) },
+	{ key = 'q', mods = mod.SYS, action = wsu.CloseCurrentPane },
 	{ key = 'UpArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(-10) },
 	{ key = 'DownArrow', mods = mod.LOWSUPER, action = act.ScrollByLine(10) },
 
@@ -61,7 +61,9 @@ local keys = {
 	{ key = 'l', mods = mod.SUPER, action = act.ActivatePaneDirection('Right') },
 	{ key = 'x', mods = mod.LOWSUPER, action = wezterm.action.ActivateCopyMode },
 
-    { key = 'g', mods = mod.SYS, action = wezterm.action.ActivateCommandPalette },
+	{ key = 'r', mods = mod.SYS, action = wsu.RenameTab },
+	{ key = 's', mods = mod.SYS, action = wsu.SpawnSplitPaneSelect },
+	{ key = 'm', mods = mod.SYS, action = act.PaneSelect },
 	-- key-tables --
 	-- resizes fonts
 	-- {
