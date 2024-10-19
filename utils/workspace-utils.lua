@@ -96,6 +96,7 @@ wsu.RenameTab = act.PromptInputLine({
 			window:active_tab():set_title(line)
 
 			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
+			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
 		end
 	end),
 })
