@@ -9,8 +9,18 @@ local filepath = dir .. '/wezterm-user.lua'
 ---@field frame_font_size number
 ---@field background string
 
+---@class WorkTab
+---@field name string
+---@field des? string
+---@field domain? string
+---@field cwd? string
+---@field args? string[]
+---@field group? boolean
+---@field tabs? WorkTab[]
+
+
 ---@class UserConfig
----@field ssh any
+---@field ws WorkTab[]
 ---@field window WindowConfig
 
 local file = io.open(filepath, 'r')
@@ -24,30 +34,43 @@ else
 
 	file = io.open(filepath, 'w')
 	local default_content = [[
-	-- add ssh connect here
-	local user = {}
-	user.ssh =
-	{
-		{label = "sample-ssh", args = { 'ssh','sample-ssh'}},
-	}
+-- add ssh connect here
+local user = {}
+user.ws = {}
 
-	user.window =
-	{
-		-- max chars horizontal
-		width = 140,
-		-- max chars verticle
-		height = 40,
+user.window =
+{
+    -- max chars horizontal
+    width = 140,
+    -- max chars verticle
+    height = 40,
 
-		-- https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-		font = "JetBrainsMono Nerd Font Propo",
-		fontsize = 14,
-        frame_font_size = 12,
+    -- https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    font = "JetBrainsMono Nerd Font Propo",
+    fontsize = 14,
+    frame_font_size = 12,
 
-		-- image file under backdrops/
-		background = 'shermie.png',
-	}
-	return user
-	]]
+    -- image file under backdrops/
+    background = 'shermie.png',
+}
+
+local wez_user = {
+	name = "wez-user",
+	domain = "local",
+	cwd = "]] ..dir:gsub("\\", "\\\\").. [[",
+    args = {'zsh', '-c', 'nvim "wezterm-user.lua"'},
+}
+
+table.insert(user.ws, wez_user)
+
+local test_group = {
+    name = "test-group", group=true, tabs = {wez_user},
+}
+table.insert(user.ws, test_group)
+
+return user
+]]
+
 	if file then
 		file:write(default_content)
 		file:close()

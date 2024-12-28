@@ -63,6 +63,7 @@ local keys = {
 
 	{ key = 'r', mods = mod.SYS, action = wsu.RenameTab },
 	{ key = 's', mods = mod.SYS, action = wsu.SpawnSplitPaneSelect },
+	{ key = 'i', mods = mod.SYS, action = wsu.SpawnFastWorkSelect },
 	{ key = 'm', mods = mod.SYS, action = act.PaneSelect },
 	-- key-tables --
 	-- resizes fonts

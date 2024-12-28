@@ -95,8 +95,14 @@ wsu.RenameTab = act.PromptInputLine({
 		if line then
 			window:active_tab():set_title(line)
 
-			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
-			window:perform_action(wezterm.action.ActivateLastTab, window:active_pane())
+            local tabs = window:mux_window():tabs()
+            if #tabs == 1 then
+                window:perform_action(act.MoveTabRelative(-1), window:active_pane())
+            else
+                window:perform_action(act.ActivateLastTab, window:active_pane())
+                window:perform_action(act.ActivateLastTab, window:active_pane())
+            end
+
 		end
 	end),
 })
@@ -122,4 +128,67 @@ wsu.SpawnSplitPaneSelect = wezterm.action_callback(function(_window, _pane)
 		'Spawn New Tab With Domain'
 	)
 end)
+
+---@type WorkTab[]
+local tabsets 
+
+local workTab_opts = {}
+
+wsu.SpawnFastWorkSelect = wezterm.action_callback(function (w1,p1)
+    if not tabsets then
+        local user = require("user")
+        tabsets = user.ws
+        for i,v in ipairs(user.ws) do 
+            local name = v.name
+            if v.des then
+                name = name .. " | " .. v.des
+            end
+            
+            table.insert(workTab_opts, {
+                id = tostring(i),
+                label = name
+            })
+        end
+    end
+
+
+	w1:perform_action(
+		act.InputSelector({
+            choices = workTab_opts,
+			description = '\n' .. ('Select WorkTab Preset '),
+			action = wezterm.action_callback(function(w2, p2, id)
+                id = tonumber(id)
+
+
+                ---@param info WorkTab
+                local function spawn_tab(info)
+                    if not info.group then
+                        w2:perform_action(act.SpawnCommandInNewTab({
+                            label = info.name,
+                            domain = {DomainName = info.domain},
+                            cwd = info.cwd,
+                            args = info.args,
+                        }), p2)
+                        w2:active_tab():set_title(info.name)
+                    else
+                        for _,v in ipairs(info.tabs) do
+                            spawn_tab(v)
+                        end
+                    end
+                end
+
+                if tabsets[id] then
+                    spawn_tab(tabsets[id])
+                end
+
+                w2:perform_action(act.ActivateLastTab, w2:active_pane())
+                w2:perform_action(act.ActivateLastTab, w2:active_pane())
+			end),
+			fuzzy = true,
+		}),
+		p1
+	)
+
+end)
+
 return wsu
