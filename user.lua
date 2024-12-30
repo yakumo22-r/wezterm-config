@@ -33,6 +33,7 @@ else
 	end
 
 	file = io.open(filepath, 'w')
+
 	local default_content = [[
 -- add ssh connect here
 local user = {}
@@ -58,7 +59,7 @@ local wez_user = {
 	name = "wez-user",
 	domain = "local",
 	cwd = "]] ..dir:gsub("\\", "\\\\").. [[",
-    args = {'zsh', '-c', 'nvim "wezterm-user.lua"'},
+    args = {'/usr/local/bin/nvim', 'wezterm-user.lua'},
 }
 
 table.insert(user.ws, wez_user)
