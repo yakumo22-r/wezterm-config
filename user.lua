@@ -2,6 +2,8 @@ local wezterm = require('wezterm')
 local dir = wezterm.home_dir .. '/.config'
 local filepath = dir .. '/wezterm-user.lua'
 
+local platform = require('utils.platform')()
+
 ---@class WindowConfig
 ---@field width number
 ---@field height number
@@ -34,10 +36,20 @@ else
 
 	file = io.open(filepath, 'w')
 
+    local nvim = "nvim"
+    if platform.is_mac then
+        nvim = "/usr/local/bin/nvim"
+    end
+
 	local default_content = [[
 -- add ssh connect here
 local user = {}
 user.ws = {}
+
+local function workspace(tab)
+    table.insert(user.ws, tab)
+    return tab
+end
 
 user.window =
 {
@@ -55,19 +67,16 @@ user.window =
     background = 'shermie.png',
 }
 
-local wez_user = {
+local wez_user = workspace {
 	name = "wez-user",
 	domain = "local",
 	cwd = "]] ..dir:gsub("\\", "\\\\").. [[",
-    args = {'/usr/local/bin/nvim', 'wezterm-user.lua'},
+    args = { ']]..nvim..[[', 'wezterm-user.lua'},
 }
 
-table.insert(user.ws, wez_user)
-
-local test_group = {
+local test_group = workspace {
     name = "test-group", group=true, tabs = {wez_user},
 }
-table.insert(user.ws, test_group)
 
 return user
 ]]

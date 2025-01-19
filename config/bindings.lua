@@ -22,7 +22,7 @@ local keys = {
 	-- misc/useful --
 	{
 		key = 'n',
-		mods = mod.SUPER,
+		mods = mod.SYS,
 		action = wsu.SpawnTabSelect,
 	},
 	{ key = 'm', mods = mod.SUPER, action = act.ShowTabNavigator },
