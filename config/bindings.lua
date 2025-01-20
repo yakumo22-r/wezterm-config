@@ -11,11 +11,13 @@ if platform.is_mac then
 	mod.SUPER = 'SUPER'
 	mod.LOWSUPER = 'CTRL'
 	mod.SUPER_REV = 'SUPER|CTRL'
-	mod.SYS = 'SUPER'
+	mod.SYS = 'ALT'
+	mod.SYS2 = 'SUPER'
 elseif platform.is_win then
 	mod.SUPER = 'SHIFT|CTRL' -- to not conflict with Windows key shortcuts
 	mod.LOWSUPER = 'CTRL'
 	mod.SYS = 'ALT'
+	mod.SYS2 = 'ALT'
 end
 
 local keys = {
@@ -39,6 +41,9 @@ local keys = {
 	-- copy/paste --
 	{ key = 'c', mods = mod.SYS, action = act.CopyTo('Clipboard') },
 	{ key = 'v', mods = mod.SYS, action = act.PasteFrom('Clipboard') },
+
+	{ key = 'c', mods = mod.SYS2, action = act.CopyTo('Clipboard') },
+	{ key = 'v', mods = mod.SYS2, action = act.PasteFrom('Clipboard') },
 
 	-- tabs: navigation
 	{ key = 'Tab', mods = mod.LOWSUPER, action = wndu.WindowFocus },
