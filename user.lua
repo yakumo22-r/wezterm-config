@@ -44,12 +44,25 @@ else
 	local default_content = [[
 -- add ssh connect here
 local user = {}
+
+---@class Workspace
+---@field name string
+---@field des string
+---@field domain string
+---@field cwd string
+---@field args string[]?
+---@field group boolean?
+---@field tabs Workspace[]?
+
+---@type Workspace[]
 user.ws = {}
 
+---@param tab Workspace
 local function workspace(tab)
     table.insert(user.ws, tab)
     return tab
 end
+
 
 user.window =
 {
@@ -70,7 +83,7 @@ user.window =
 local wez_user = workspace {
 	name = "wez-user",
 	domain = "local",
-	cwd = "]] ..dir:gsub("\\", "\\\\").. [[",
+	cwd = "]] ..dir:gsub("\\", "/").. [[",
     args = { ']]..nvim..[[', 'wezterm-user.lua'},
 }
 
